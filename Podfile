@@ -8,5 +8,6 @@ target 'CurrencyConverterApp' do
   # Pods for CurrencyConverterApp
   pod 'Moya', '~> 15.0'
   pod 'Moya/Combine', '~> 15.0'
+  pod 'CountryPickerView'
 
 end

@@ -7,9 +7,11 @@
 
 import UIKit
 import Combine
+import CountryPickerView
 class CurrencyRatesViewController: UIViewController {
 
     // MARK: - Outlets
+    @IBOutlet weak var chooseCurrencyBaseButton: UIButton!
     @IBOutlet weak var currencyBaseTextLabel: UILabel!
     @IBOutlet weak var currencyRatesTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -18,7 +20,7 @@ class CurrencyRatesViewController: UIViewController {
     var currencyRatesArray = [CurrencyRateModel]()
     private lazy var viewModel = CurrencyListViewModel()
     private var bindings = Set<AnyCancellable>()
-    
+    let cpvInternal = CountryPickerView()
     @Published var newBaseCurrency: String = ""
     
     // MARK: - lifeCycle
@@ -29,11 +31,15 @@ class CurrencyRatesViewController: UIViewController {
         registerCells()
         setUpBindings()
     }
+    
+    @IBAction func showCurrencyPicker(_ sender: Any) {
+        cpvInternal.showCountriesList(from: self)
+    }
 }
 // MARK: - UI & Register Cells
 extension CurrencyRatesViewController {
     func setUpUI() {
-        
+        cpvInternal.delegate = self
     }
     func registerCells() {
         //CurrencyRateTableViewCell
@@ -84,7 +90,7 @@ extension CurrencyRatesViewController {
         bindViewToViewModel()
         bindViewModelToView()
     }
-    
+
 }
 // MARK: - currency rates controller states
 extension CurrencyRatesViewController {
@@ -125,4 +131,16 @@ extension CurrencyRatesViewController: UITableViewDelegate {
         print("selectedRate = \(selectedRate.symbol) \(selectedRate.rate)")
     }
     
+}
+// MARK: - CountryPickerViewDelegate
+extension CurrencyRatesViewController: CountryPickerViewDelegate {
+    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
+       
+        if let country = Locale.currency["\(country.code)"],
+           let countryCode = country.code {
+            self.currencyBaseTextLabel.text = countryCode
+            viewModel.fetchCurrencyRates(with: countryCode)
+        }
+      
+    }
 }
