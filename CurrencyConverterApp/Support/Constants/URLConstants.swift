@@ -21,7 +21,7 @@ struct APPURL {
     
     private  static let Domain = Domains.Dev
     private  static let Route = Routes.Api
-    private  static let BaseURL = Domain + Route
+    static let BaseURL = Domain + Route
     
     struct Paths {
         static let getAllSymbolsPath = "/symbols"
