@@ -19,6 +19,9 @@ struct Key {
             static let ContentType = "Content-Type"
             static let apikey = "apikey"
             static let baseKey = "base"
+            static let from = "from"
+            static let to = "to"
+            static let amount = "amount"
         }
     
         struct FixerApiKey {

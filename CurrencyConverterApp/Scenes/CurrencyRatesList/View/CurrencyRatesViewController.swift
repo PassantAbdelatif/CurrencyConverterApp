@@ -20,8 +20,7 @@ class CurrencyRatesViewController: UIViewController {
     var currencyRatesArray = [CurrencyRateModel]()
     private lazy var viewModel = CurrencyListViewModel()
     private var bindings = Set<AnyCancellable>()
-    let cpvInternal = CountryPickerView()
-    @Published var newBaseCurrency: String = ""
+    let countryPickerView = CountryPickerView()
     
     // MARK: - lifeCycle
    
@@ -33,13 +32,13 @@ class CurrencyRatesViewController: UIViewController {
     }
     
     @IBAction func showCurrencyPicker(_ sender: Any) {
-        cpvInternal.showCountriesList(from: self)
+        countryPickerView.showCountriesList(from: self)
     }
 }
 // MARK: - UI & Register Cells
 extension CurrencyRatesViewController {
     func setUpUI() {
-        cpvInternal.delegate = self
+        countryPickerView.delegate = self
     }
     func registerCells() {
         //CurrencyRateTableViewCell
@@ -91,6 +90,14 @@ extension CurrencyRatesViewController {
         bindViewModelToView()
     }
 
+    private func showCurrencyConverter(_ currencyRate: CurrencyRateModel){
+        let converterViewController = CurrencyConverterViewController()
+        
+        converterViewController.viewModel = CurrencyConverterViewModel(currentBaseCurrency: self.currencyBaseTextLabel.text ?? "",
+                                                                       selectedCurrencyRate: currencyRate)
+        navigationController?.show(converterViewController, sender: nil)
+        
+    }
 }
 // MARK: - currency rates controller states
 extension CurrencyRatesViewController {
@@ -128,9 +135,8 @@ extension CurrencyRatesViewController: UITableViewDataSource {
 extension CurrencyRatesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRate = viewModel.currencyRates[indexPath.row]
-        print("selectedRate = \(selectedRate.symbol) \(selectedRate.rate)")
+        self.showCurrencyConverter(selectedRate)
     }
-    
 }
 // MARK: - CountryPickerViewDelegate
 extension CurrencyRatesViewController: CountryPickerViewDelegate {
