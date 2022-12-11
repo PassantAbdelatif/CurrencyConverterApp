@@ -26,5 +26,6 @@ struct APPURL {
     struct Paths {
         static let getAllSymbolsPath = "/symbols"
         static let getLatestRates = "/latest"
+        static let convertAmountByRate = "/convert"
     }
 }

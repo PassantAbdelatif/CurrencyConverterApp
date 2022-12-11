@@ -18,6 +18,7 @@ struct Key {
             static let Authorization = "Authorization"
             static let ContentType = "Content-Type"
             static let apikey = "apikey"
+            static let baseKey = "base"
         }
     
         struct FixerApiKey {

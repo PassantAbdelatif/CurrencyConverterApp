@@ -35,7 +35,11 @@ extension CurrencyServices: TargetType {
     }
     
     var task: Task {
-        return .requestPlain
+        switch self {
+        case .getLatestCurrencyRates(let baseCurrency):
+            return .requestParameters(parameters: [Key.Headers.baseKey: baseCurrency],
+                                      encoding: URLEncoding.queryString)
+        }
     }
     
     var headers: [String : String]? {

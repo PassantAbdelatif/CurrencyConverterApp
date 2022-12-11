@@ -35,7 +35,7 @@ final class CurrencyRatesNetwrok: CurrencyRatesNetwrokProtocol {
                 for (symbol, rate) in rates {
                     ratesObjectsArray.append(CurrencyRateModel(symbol: symbol, rate: rate))
                 }
-                return ratesObjectsArray
+                return ratesObjectsArray.sorted(by: { $0.symbol ?? "" < $1.symbol ?? "" })
             } else {
                
             }
