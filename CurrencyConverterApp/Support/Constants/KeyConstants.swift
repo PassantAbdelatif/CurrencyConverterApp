@@ -25,7 +25,7 @@ struct Key {
         }
     
         struct FixerApiKey {
-            static let apikey = "S2sYJ22OFuvvEbnywTBFc0nBNQ0MvrS8"
+            static let apikey = "KtbN4IvLSqikqXLfluP0wLOwSXCH7xVb"
         }
 
         struct ErrorMessage{
